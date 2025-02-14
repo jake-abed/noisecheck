@@ -12,8 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
+import { Route as UserRouteImport } from './routes/user/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as UserIndexImport } from './routes/user/index'
+import { Route as UserReleasesRouteImport } from './routes/user/releases/route'
+import { Route as UserProfileRouteImport } from './routes/user/profile/route'
 
 // Create/Update Routes
 
@@ -23,16 +25,28 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const UserRouteRoute = UserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const UserIndexRoute = UserIndexImport.update({
-  id: '/user/',
-  path: '/user/',
-  getParentRoute: () => rootRoute,
+const UserReleasesRouteRoute = UserReleasesRouteImport.update({
+  id: '/releases',
+  path: '/releases',
+  getParentRoute: () => UserRouteRoute,
+} as any)
+
+const UserProfileRouteRoute = UserProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UserRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -46,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -53,56 +74,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
-    '/user/': {
-      id: '/user/'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof UserIndexImport
-      parentRoute: typeof rootRoute
+    '/user/profile': {
+      id: '/user/profile'
+      path: '/profile'
+      fullPath: '/user/profile'
+      preLoaderRoute: typeof UserProfileRouteImport
+      parentRoute: typeof UserRouteImport
+    }
+    '/user/releases': {
+      id: '/user/releases'
+      path: '/releases'
+      fullPath: '/user/releases'
+      preLoaderRoute: typeof UserReleasesRouteImport
+      parentRoute: typeof UserRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface UserRouteRouteChildren {
+  UserProfileRouteRoute: typeof UserProfileRouteRoute
+  UserReleasesRouteRoute: typeof UserReleasesRouteRoute
+}
+
+const UserRouteRouteChildren: UserRouteRouteChildren = {
+  UserProfileRouteRoute: UserProfileRouteRoute,
+  UserReleasesRouteRoute: UserReleasesRouteRoute,
+}
+
+const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
+  UserRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/user': typeof UserIndexRoute
+  '/user/profile': typeof UserProfileRouteRoute
+  '/user/releases': typeof UserReleasesRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/user': typeof UserIndexRoute
+  '/user/profile': typeof UserProfileRouteRoute
+  '/user/releases': typeof UserReleasesRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/user/': typeof UserIndexRoute
+  '/user/profile': typeof UserProfileRouteRoute
+  '/user/releases': typeof UserReleasesRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/user'
+  fullPaths: '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/user'
-  id: '__root__' | '/' | '/about' | '/user/'
+  to: '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
+  id: '__root__' | '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UserRouteRoute: typeof UserRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  UserIndexRoute: typeof UserIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UserRouteRoute: UserRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  UserIndexRoute: UserIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +164,30 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
-        "/user/"
+        "/user",
+        "/about"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/user": {
+      "filePath": "user/route.tsx",
+      "children": [
+        "/user/profile",
+        "/user/releases"
+      ]
+    },
     "/about": {
       "filePath": "about.tsx"
     },
-    "/user/": {
-      "filePath": "user/index.tsx"
+    "/user/profile": {
+      "filePath": "user/profile/route.tsx",
+      "parent": "/user"
+    },
+    "/user/releases": {
+      "filePath": "user/releases/route.tsx",
+      "parent": "/user"
     }
   }
 }

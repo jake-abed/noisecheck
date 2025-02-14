@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { SignedIn } from "@clerk/clerk-react";
 import Header from "../components/header";
 
 export const Route = createRootRoute({
@@ -29,14 +30,16 @@ function RootComponent() {
         >
           About
         </Link>
-        <Link
-          to="/user"
-          activeProps={{
-            className: "font-bold",
-          }}
-        >
-          Users
-        </Link>
+        <SignedIn>
+          <Link
+            to="/user/releases"
+            activeProps={{
+              className: "font-bold",
+            }}
+          >
+            User
+          </Link>
+        </SignedIn>
       </div>
       <hr />
       <Outlet />
