@@ -13,7 +13,7 @@ function RouteComponent() {
     <>
       <SignedIn>
         <div>
-          Hello {user?.firstName} {user?.lastName}!
+          Hello {user?.firstName} {user?.lastName} AKA {user?.username}!
         </div>
         <Link to="/user/profile">Profile</Link>
         <Link to="/user/releases">Releases</Link>
