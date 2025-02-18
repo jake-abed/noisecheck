@@ -14,9 +14,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as UserRouteImport } from './routes/user/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as ReleasesIndexImport } from './routes/releases/index'
 import { Route as UserReleasesRouteImport } from './routes/user/releases/route'
 import { Route as UserProfileRouteImport } from './routes/user/profile/route'
 import { Route as UserNewReleaseRouteImport } from './routes/user/new-release/route'
+import { Route as ReleasesReleaseIdViewImport } from './routes/releases/$releaseId/view'
 
 // Create/Update Routes
 
@@ -38,6 +40,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ReleasesIndexRoute = ReleasesIndexImport.update({
+  id: '/releases/',
+  path: '/releases/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const UserReleasesRouteRoute = UserReleasesRouteImport.update({
   id: '/releases',
   path: '/releases',
@@ -54,6 +62,12 @@ const UserNewReleaseRouteRoute = UserNewReleaseRouteImport.update({
   id: '/new-release',
   path: '/new-release',
   getParentRoute: () => UserRouteRoute,
+} as any)
+
+const ReleasesReleaseIdViewRoute = ReleasesReleaseIdViewImport.update({
+  id: '/releases/$releaseId/view',
+  path: '/releases/$releaseId/view',
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -102,6 +116,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserReleasesRouteImport
       parentRoute: typeof UserRouteImport
     }
+    '/releases/': {
+      id: '/releases/'
+      path: '/releases'
+      fullPath: '/releases'
+      preLoaderRoute: typeof ReleasesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/releases/$releaseId/view': {
+      id: '/releases/$releaseId/view'
+      path: '/releases/$releaseId/view'
+      fullPath: '/releases/$releaseId/view'
+      preLoaderRoute: typeof ReleasesReleaseIdViewImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -130,6 +158,8 @@ export interface FileRoutesByFullPath {
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
+  '/releases': typeof ReleasesIndexRoute
+  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
 }
 
 export interface FileRoutesByTo {
@@ -139,6 +169,8 @@ export interface FileRoutesByTo {
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
+  '/releases': typeof ReleasesIndexRoute
+  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
 }
 
 export interface FileRoutesById {
@@ -149,6 +181,8 @@ export interface FileRoutesById {
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
+  '/releases/': typeof ReleasesIndexRoute
+  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
 }
 
 export interface FileRouteTypes {
@@ -160,6 +194,8 @@ export interface FileRouteTypes {
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
+    | '/releases'
+    | '/releases/$releaseId/view'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -168,6 +204,8 @@ export interface FileRouteTypes {
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
+    | '/releases'
+    | '/releases/$releaseId/view'
   id:
     | '__root__'
     | '/'
@@ -176,6 +214,8 @@ export interface FileRouteTypes {
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
+    | '/releases/'
+    | '/releases/$releaseId/view'
   fileRoutesById: FileRoutesById
 }
 
@@ -183,12 +223,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UserRouteRoute: typeof UserRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  ReleasesIndexRoute: typeof ReleasesIndexRoute
+  ReleasesReleaseIdViewRoute: typeof ReleasesReleaseIdViewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UserRouteRoute: UserRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  ReleasesIndexRoute: ReleasesIndexRoute,
+  ReleasesReleaseIdViewRoute: ReleasesReleaseIdViewRoute,
 }
 
 export const routeTree = rootRoute
@@ -203,7 +247,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/user",
-        "/about"
+        "/about",
+        "/releases/",
+        "/releases/$releaseId/view"
       ]
     },
     "/": {
@@ -231,6 +277,12 @@ export const routeTree = rootRoute
     "/user/releases": {
       "filePath": "user/releases/route.tsx",
       "parent": "/user"
+    },
+    "/releases/": {
+      "filePath": "releases/index.tsx"
+    },
+    "/releases/$releaseId/view": {
+      "filePath": "releases/$releaseId/view.tsx"
     }
   }
 }
