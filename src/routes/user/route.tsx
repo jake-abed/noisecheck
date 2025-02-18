@@ -11,16 +11,16 @@ function RouteComponent() {
 
   return (
     <>
-      <SignedIn>
-        <div>
-          Hello {user?.firstName} {user?.lastName} AKA {user?.username}!
-        </div>
-        <Link to="/user/profile">Profile</Link>
-        <Link to="/user/releases">Releases</Link>
-      </SignedIn>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
+      <div className="flex justify-center items-center gap-4">
+        <SignedIn>
+          <div>Hi {user?.username}!</div>
+          <Link to="/user/profile">Profile</Link>
+          <Link to="/user/releases">Releases</Link>
+        </SignedIn>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+      </div>
       <Outlet />
     </>
   );

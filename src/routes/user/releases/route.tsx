@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import PostRelease from "../../../components/post_release";
 
 export const Route = createFileRoute("/user/releases")({
@@ -6,5 +6,10 @@ export const Route = createFileRoute("/user/releases")({
 });
 
 function RouteComponent() {
-  return <PostRelease />;
+  return (
+    <div className="flex flex-col justify-center items-center">
+      <Link to={"/user/new-release"}>New Release</Link>
+      <Outlet />
+    </div>
+  );
 }

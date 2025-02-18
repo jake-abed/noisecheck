@@ -16,6 +16,7 @@ import { Route as UserRouteImport } from './routes/user/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as UserReleasesRouteImport } from './routes/user/releases/route'
 import { Route as UserProfileRouteImport } from './routes/user/profile/route'
+import { Route as UserNewReleaseRouteImport } from './routes/user/new-release/route'
 
 // Create/Update Routes
 
@@ -49,6 +50,12 @@ const UserProfileRouteRoute = UserProfileRouteImport.update({
   getParentRoute: () => UserRouteRoute,
 } as any)
 
+const UserNewReleaseRouteRoute = UserNewReleaseRouteImport.update({
+  id: '/new-release',
+  path: '/new-release',
+  getParentRoute: () => UserRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/user/new-release': {
+      id: '/user/new-release'
+      path: '/new-release'
+      fullPath: '/user/new-release'
+      preLoaderRoute: typeof UserNewReleaseRouteImport
+      parentRoute: typeof UserRouteImport
+    }
     '/user/profile': {
       id: '/user/profile'
       path: '/profile'
@@ -94,11 +108,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface UserRouteRouteChildren {
+  UserNewReleaseRouteRoute: typeof UserNewReleaseRouteRoute
   UserProfileRouteRoute: typeof UserProfileRouteRoute
   UserReleasesRouteRoute: typeof UserReleasesRouteRoute
 }
 
 const UserRouteRouteChildren: UserRouteRouteChildren = {
+  UserNewReleaseRouteRoute: UserNewReleaseRouteRoute,
   UserProfileRouteRoute: UserProfileRouteRoute,
   UserReleasesRouteRoute: UserReleasesRouteRoute,
 }
@@ -111,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
 }
@@ -119,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
 }
@@ -128,16 +146,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
+  fullPaths:
+    | '/'
+    | '/user'
+    | '/about'
+    | '/user/new-release'
+    | '/user/profile'
+    | '/user/releases'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
-  id: '__root__' | '/' | '/user' | '/about' | '/user/profile' | '/user/releases'
+  to:
+    | '/'
+    | '/user'
+    | '/about'
+    | '/user/new-release'
+    | '/user/profile'
+    | '/user/releases'
+  id:
+    | '__root__'
+    | '/'
+    | '/user'
+    | '/about'
+    | '/user/new-release'
+    | '/user/profile'
+    | '/user/releases'
   fileRoutesById: FileRoutesById
 }
 
@@ -174,12 +212,17 @@ export const routeTree = rootRoute
     "/user": {
       "filePath": "user/route.tsx",
       "children": [
+        "/user/new-release",
         "/user/profile",
         "/user/releases"
       ]
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/user/new-release": {
+      "filePath": "user/new-release/route.tsx",
+      "parent": "/user"
     },
     "/user/profile": {
       "filePath": "user/profile/route.tsx",
