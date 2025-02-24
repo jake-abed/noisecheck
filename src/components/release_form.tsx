@@ -1,93 +1,204 @@
-import React, { useState } from "react";
-import TextInput from "./inputs/text-input";
-import CheckBoxInput from "./inputs/checkbox-input";
-import { UseMutationResult } from "@tanstack/react-query";
-import type { NewRelease } from "../routes/user/new-release/route";
+import { useAuth } from '@clerk/clerk-react';
+import { useForm } from '@tanstack/react-form';
+import { useNavigate } from '@tanstack/react-router';
+import { useMutation } from '@tanstack/react-query';
 
-export type Release = {
-  name: string;
-  imageUrl: string;
-  isPublic: boolean;
-  isSingle: boolean;
-  mutation: UseMutationResult<any, Error, NewRelease, unknown>;
+type NewReleaseProps = {
+	name: string;
+	isPublic: boolean;
+	isSingle: boolean;
+	file?: File;
 };
 
-export function ReleaseForm(props: Release) {
-  let [r, setRelease] = useState<Release>(props);
+export type NewRelease = {
+	id?: number;
+	name: string;
+	user_id?: string;
+	url?: string;
+	image_url: string;
+	is_public: boolean;
+	is_single: boolean;
+};
 
-  function updateName(e: React.ChangeEvent<HTMLInputElement>) {
-    const newName = e.target.value;
-    if (newName != null) {
-      setRelease({ ...r, name: newName });
-    }
-  }
+export default function ReleaseForm({
+	name,
+	isPublic,
+	isSingle,
+	file,
+}: NewReleaseProps) {
+	const postNewRelease = () => {
+		const { getToken } = useAuth();
 
-  function updateImageUrl(e: React.ChangeEvent<HTMLInputElement>) {
-    const newUrl = e.target.value;
-    if (newUrl != null) {
-      setRelease({ ...r, imageUrl: newUrl });
-    }
-  }
+		return async function (value: NewReleaseProps) {
+			const token = await getToken();
 
-  function updateSingle(e: React.ChangeEvent<HTMLInputElement>) {
-    const newIsSingle = e.target.checked;
-    setRelease({ ...r, isSingle: newIsSingle });
-  }
+			const basicInfo = {
+				name: value.name,
+				isPublic: value.isPublic,
+				isSingle: value.isSingle,
+			};
 
-  function updatePublic(e: React.ChangeEvent<HTMLInputElement>) {
-    const newIsPublic = e.target.checked;
-    setRelease({ ...r, isPublic: newIsPublic });
-  }
+			const formData = new FormData();
+			formData.append('data', JSON.stringify(basicInfo));
+			if (value.file) {
+				formData.append('file', value.file);
+			}
 
-  function handleSubmit(e: React.PointerEvent<HTMLInputElement>) {
-    e.preventDefault();
-    const newRel: NewRelease = {
-      name: r.name,
-      img_url: r.imageUrl,
-      is_public: r.isPublic,
-      is_single: r.isSingle,
-    };
-    r.mutation.mutate(newRel);
-  }
+			const res = await fetch(
+				'https://happy-heartily-kid.ngrok-free.app/api/releases',
+				{
+					method: 'POST',
+					mode: 'cors',
+					headers: { Authorization: `Bearer ${token}` },
+					body: formData,
+				}
+			);
 
-  return (
-    <div className="m-auto w-svw p-4 max-w-xl">
-      <h2 className="text-xl p-2">Add New Release:</h2>
-      <form className="m-auto w-full p-4 bg-zinc-800 rounded flex flex-col gap-4 justify-center items-center">
-        <TextInput
-          labelText="Release Name:"
-          id="name"
-          value={r.name}
-          placeholder="Release Name"
-          onChange={updateName}
-        />
-        <TextInput
-          labelText="Release Image"
-          labelSubtext=" (1:1) "
-          id="imageURL"
-          value={r.imageUrl}
-          placeholder="https://some.img.url"
-          onChange={updateImageUrl}
-        />
-        <CheckBoxInput
-          labelText="Public?"
-          id="public"
-          value={r.isPublic}
-          onChange={updatePublic}
-        />
-        <CheckBoxInput
-          labelText="Single?"
-          id="single"
-          value={r.isSingle}
-          onChange={updateSingle}
-        />
-        <input
-          className="bg-rose-500 p-2 rounded"
-          type="submit"
-          value="ADD RELEASE"
-          onClick={handleSubmit}
-        />
-      </form>
-    </div>
-  );
+			const body = (await res.json()) as NewRelease;
+
+			navigate({
+				to: '/releases/$releaseId/view',
+				params: { releaseId: String(body.id) },
+			});
+		};
+	};
+
+	const navigate = useNavigate({ from: '/releases/$releaseId/view' });
+
+	const newReleaseMutation = useMutation({
+		mutationFn: postNewRelease(),
+	});
+	const form = useForm({
+		defaultValues: {
+			name: name,
+			isPublic: isPublic,
+			isSingle: isSingle,
+			file: file,
+		},
+		onSubmit: async ({ value }) => {
+			newReleaseMutation.mutate(value);
+		},
+	});
+
+	if (newReleaseMutation.isPending) {
+		return <p>loading...</p>;
+	}
+
+	return (
+		<div>
+			<h2>Create New Release</h2>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					form.handleSubmit();
+				}}
+				className='flex flex-col mx-auto max-w-72 gap-4'
+			>
+				<form.Field
+					name='name'
+					validators={{
+						onChange: ({ value }) => {
+							if (!value) return 'A name is required!';
+							if (value.length < 3)
+								return 'Name must be greater than 3 characters!';
+							return undefined;
+						},
+					}}
+					children={(field) => {
+						return (
+							<>
+								<label
+									htmlFor={field.name}
+									className='inline w-full flex flex-col items-start gap-2'
+								>
+									Release Name:
+									<input
+										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
+										type='text'
+										id={field.name}
+										name={field.name}
+										value={field.state.value}
+										placeholder={'Some Name'}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+								</label>
+							</>
+						);
+					}}
+				/>
+				<form.Field
+					name='isSingle'
+					children={(field) => {
+						return (
+							<>
+								<label
+									htmlFor={field.name}
+									className='inline w-full flex flex-col items-start gap-2'
+								>
+									Single?
+									<input
+										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
+										type='checkbox'
+										id={field.name}
+										name={field.name}
+										onChange={(e) => field.handleChange(e.target.checked)}
+									/>
+								</label>
+							</>
+						);
+					}}
+				/>
+				<form.Field
+					name='isPublic'
+					children={(field) => {
+						return (
+							<>
+								<label
+									htmlFor={field.name}
+									className='inline w-full flex flex-col items-start gap-2'
+								>
+									Public?
+									<input
+										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
+										type='checkbox'
+										id={field.name}
+										name={field.name}
+										onChange={(e) => field.handleChange(e.target.checked)}
+									/>
+								</label>
+							</>
+						);
+					}}
+				/>
+				<form.Field
+					name='file'
+					children={(field) => {
+						return (
+							<>
+								<label
+									htmlFor={field.name}
+									className='inline w-full flex flex-col items-start gap-2'
+								>
+									Public?
+									<input
+										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
+										type='file'
+										accept='.jpg,.jpeg,.png'
+										id={field.name}
+										name={field.name}
+										onChange={(e) => {
+											if (e.target.files && e.target.files.length > 0) {
+												return field.handleChange(e.target.files[0]);
+											}
+										}}
+									/>
+								</label>
+							</>
+						);
+					}}
+				/>
+			</form>
+		</div>
+	);
 }
