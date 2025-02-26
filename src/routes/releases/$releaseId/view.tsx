@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import type { NewRelease } from '../../../components/release_form';
+import type { TRelease } from '../../../types/releases';
 
 export const Route = createFileRoute('/releases/$releaseId/view')({
 	component: RouteComponent,
@@ -21,7 +21,7 @@ function RouteComponent() {
 				}
 			);
 
-			const body = (await res.json()) as NewRelease;
+			const body = (await res.json()) as TRelease;
 			console.log(body);
 			return body;
 		},

@@ -2,30 +2,9 @@ import { useAuth } from '@clerk/clerk-react';
 import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
+import type { TRelease, NewReleaseProps } from '../types/releases';
 
-type NewReleaseProps = {
-	name: string;
-	isPublic: boolean;
-	isSingle: boolean;
-	file?: File;
-};
-
-export type NewRelease = {
-	id?: number;
-	name: string;
-	user_id?: string;
-	url?: string;
-	image_url: string;
-	is_public: boolean;
-	is_single: boolean;
-};
-
-export default function ReleaseForm({
-	name,
-	isPublic,
-	isSingle,
-	file,
-}: NewReleaseProps) {
+export default function ReleaseForm({ name, isPublic, file }: NewReleaseProps) {
 	const postNewRelease = () => {
 		const { getToken } = useAuth();
 
@@ -35,7 +14,6 @@ export default function ReleaseForm({
 			const basicInfo = {
 				name: value.name,
 				isPublic: value.isPublic,
-				isSingle: value.isSingle,
 			};
 
 			const formData = new FormData();
@@ -54,7 +32,7 @@ export default function ReleaseForm({
 				}
 			);
 
-			const body = (await res.json()) as NewRelease;
+			const body = (await res.json()) as TRelease;
 
 			navigate({
 				to: '/releases/$releaseId/view',
@@ -72,7 +50,6 @@ export default function ReleaseForm({
 		defaultValues: {
 			name: name,
 			isPublic: isPublic,
-			isSingle: isSingle,
 			file: file,
 		},
 		onSubmit: async ({ value }) => {
@@ -128,28 +105,6 @@ export default function ReleaseForm({
 					}}
 				/>
 				<form.Field
-					name='isSingle'
-					children={(field) => {
-						return (
-							<>
-								<label
-									htmlFor={field.name}
-									className='inline w-full flex flex-col items-start gap-2'
-								>
-									Single?
-									<input
-										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
-										type='checkbox'
-										id={field.name}
-										name={field.name}
-										onChange={(e) => field.handleChange(e.target.checked)}
-									/>
-								</label>
-							</>
-						);
-					}}
-				/>
-				<form.Field
 					name='isPublic'
 					children={(field) => {
 						return (
@@ -180,10 +135,12 @@ export default function ReleaseForm({
 									htmlFor={field.name}
 									className='inline w-full flex flex-col items-start gap-2'
 								>
-									Public?
+									Choose a File:{' '}
+									<span className='text-sm text-light'>(png or jpg)</span>
 									<input
 										className='w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950'
 										type='file'
+										required={true}
 										accept='.jpg,.jpeg,.png'
 										id={field.name}
 										name={field.name}
@@ -198,6 +155,12 @@ export default function ReleaseForm({
 						);
 					}}
 				/>
+				<button
+					type='submit'
+					className='text-zinc-950 text-lg text-bold uppercase bg-rose-400 rounded p-3'
+				>
+					Create Release
+				</button>
 			</form>
 		</div>
 	);
