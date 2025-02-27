@@ -1,6 +1,7 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import type { TRelease } from "../../../types/releases";
+import type { TRelease } from "~/types/releases";
+import type { TApiError } from "~/types/errors";
 
 export const Route = createFileRoute("/releases/$releaseId/view")({
   component: RouteComponent,
@@ -21,14 +22,25 @@ function RouteComponent() {
         },
       );
 
+      if (res.status != 200) {
+        const body = (await res.json()) as TApiError;
+        return body;
+      }
+
       const body = (await res.json()) as TRelease;
-      console.log(body);
       return body;
     },
     queryKey: ["data"],
   });
 
-  console.log(data?.image_url);
+  if (data && "error" in data) {
+    return (
+      <div>
+        <p>Uh oh! Something went wrong!</p>
+        <p>{data.error}</p>
+      </div>
+    );
+  }
 
   return (
     <div>

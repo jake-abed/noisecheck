@@ -19,6 +19,7 @@ import { Route as UserReleasesRouteImport } from "./routes/user/releases/route";
 import { Route as UserProfileRouteImport } from "./routes/user/profile/route";
 import { Route as UserNewReleaseRouteImport } from "./routes/user/new-release/route";
 import { Route as ReleasesReleaseIdViewImport } from "./routes/releases/$releaseId/view";
+import { Route as ReleasesReleaseIdTracksTrackIdViewImport } from "./routes/releases/$releaseId/tracks/$trackId/view";
 
 // Create/Update Routes
 
@@ -69,6 +70,13 @@ const ReleasesReleaseIdViewRoute = ReleasesReleaseIdViewImport.update({
   path: "/releases/$releaseId/view",
   getParentRoute: () => rootRoute,
 } as any);
+
+const ReleasesReleaseIdTracksTrackIdViewRoute =
+  ReleasesReleaseIdTracksTrackIdViewImport.update({
+    id: "/releases/$releaseId/tracks/$trackId/view",
+    path: "/releases/$releaseId/tracks/$trackId/view",
+    getParentRoute: () => rootRoute,
+  } as any);
 
 // Populate the FileRoutesByPath interface
 
@@ -130,6 +138,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ReleasesReleaseIdViewImport;
       parentRoute: typeof rootRoute;
     };
+    "/releases/$releaseId/tracks/$trackId/view": {
+      id: "/releases/$releaseId/tracks/$trackId/view";
+      path: "/releases/$releaseId/tracks/$trackId/view";
+      fullPath: "/releases/$releaseId/tracks/$trackId/view";
+      preLoaderRoute: typeof ReleasesReleaseIdTracksTrackIdViewImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
@@ -160,6 +175,7 @@ export interface FileRoutesByFullPath {
   "/user/releases": typeof UserReleasesRouteRoute;
   "/releases": typeof ReleasesIndexRoute;
   "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
+  "/releases/$releaseId/tracks/$trackId/view": typeof ReleasesReleaseIdTracksTrackIdViewRoute;
 }
 
 export interface FileRoutesByTo {
@@ -171,6 +187,7 @@ export interface FileRoutesByTo {
   "/user/releases": typeof UserReleasesRouteRoute;
   "/releases": typeof ReleasesIndexRoute;
   "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
+  "/releases/$releaseId/tracks/$trackId/view": typeof ReleasesReleaseIdTracksTrackIdViewRoute;
 }
 
 export interface FileRoutesById {
@@ -183,6 +200,7 @@ export interface FileRoutesById {
   "/user/releases": typeof UserReleasesRouteRoute;
   "/releases/": typeof ReleasesIndexRoute;
   "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
+  "/releases/$releaseId/tracks/$trackId/view": typeof ReleasesReleaseIdTracksTrackIdViewRoute;
 }
 
 export interface FileRouteTypes {
@@ -195,7 +213,8 @@ export interface FileRouteTypes {
     | "/user/profile"
     | "/user/releases"
     | "/releases"
-    | "/releases/$releaseId/view";
+    | "/releases/$releaseId/view"
+    | "/releases/$releaseId/tracks/$trackId/view";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
@@ -205,7 +224,8 @@ export interface FileRouteTypes {
     | "/user/profile"
     | "/user/releases"
     | "/releases"
-    | "/releases/$releaseId/view";
+    | "/releases/$releaseId/view"
+    | "/releases/$releaseId/tracks/$trackId/view";
   id:
     | "__root__"
     | "/"
@@ -215,7 +235,8 @@ export interface FileRouteTypes {
     | "/user/profile"
     | "/user/releases"
     | "/releases/"
-    | "/releases/$releaseId/view";
+    | "/releases/$releaseId/view"
+    | "/releases/$releaseId/tracks/$trackId/view";
   fileRoutesById: FileRoutesById;
 }
 
@@ -225,6 +246,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute;
   ReleasesIndexRoute: typeof ReleasesIndexRoute;
   ReleasesReleaseIdViewRoute: typeof ReleasesReleaseIdViewRoute;
+  ReleasesReleaseIdTracksTrackIdViewRoute: typeof ReleasesReleaseIdTracksTrackIdViewRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -233,6 +255,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ReleasesIndexRoute: ReleasesIndexRoute,
   ReleasesReleaseIdViewRoute: ReleasesReleaseIdViewRoute,
+  ReleasesReleaseIdTracksTrackIdViewRoute:
+    ReleasesReleaseIdTracksTrackIdViewRoute,
 };
 
 export const routeTree = rootRoute
@@ -249,7 +273,8 @@ export const routeTree = rootRoute
         "/user",
         "/about",
         "/releases/",
-        "/releases/$releaseId/view"
+        "/releases/$releaseId/view",
+        "/releases/$releaseId/tracks/$trackId/view"
       ]
     },
     "/": {
@@ -283,6 +308,9 @@ export const routeTree = rootRoute
     },
     "/releases/$releaseId/view": {
       "filePath": "releases/$releaseId/view.tsx"
+    },
+    "/releases/$releaseId/tracks/$trackId/view": {
+      "filePath": "releases/$releaseId/tracks/$trackId/view.tsx"
     }
   }
 }
