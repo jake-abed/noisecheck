@@ -17,3 +17,7 @@ export type TReleaseProps = {
   action: TCrudActions;
   submitFn: () => (value: any) => Promise<void>;
 };
+
+export type TReleaseViewProps = {
+  releaseId: string;
+};
