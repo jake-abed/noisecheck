@@ -1,3 +1,5 @@
+import { TCrudActions } from "./misc";
+
 export type TRelease = {
   id: number;
   name: string;
@@ -7,8 +9,11 @@ export type TRelease = {
   is_public: boolean;
 };
 
-export type NewReleaseProps = {
+export type TReleaseProps = {
+  id?: number;
   name: string;
   isPublic: boolean;
   file?: File;
+  action: TCrudActions;
+  submitFn: () => (value: any) => Promise<void>;
 };

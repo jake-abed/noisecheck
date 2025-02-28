@@ -1,31 +1,32 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { titleCaseWord } from "~/utils/utils";
-import type { TReleaseProps } from "~/types/releases";
+import { titleCaseWord } from "../utils/utils";
+import { TTrackProps } from "~/types/tracks";
 
-export default function ReleaseForm({
+export default function TrackForm({
   name,
-  isPublic,
+  releaseId,
   file,
   submitFn,
   action,
-}: TReleaseProps) {
-  const newReleaseMutation = useMutation({
+}: TTrackProps) {
+  const trackMutation = useMutation({
     mutationFn: submitFn(),
+    mutationKey: ["data"],
   });
 
   const form = useForm({
     defaultValues: {
       name: name,
-      isPublic: isPublic,
+      releaseId: releaseId,
       file: file,
     },
     onSubmit: async ({ value }) => {
-      newReleaseMutation.mutate(value);
+      trackMutation.mutate(value);
     },
   });
 
-  if (newReleaseMutation.isPending) {
+  if (trackMutation.isPending) {
     return <p>loading...</p>;
   }
 
@@ -66,28 +67,6 @@ export default function ReleaseForm({
                     value={field.state.value}
                     placeholder={"Some Name"}
                     onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                </label>
-              </>
-            );
-          }}
-        />
-        <form.Field
-          name="isPublic"
-          children={(field) => {
-            return (
-              <>
-                <label
-                  htmlFor={field.name}
-                  className="inline w-full flex flex-col items-start gap-2"
-                >
-                  Public?
-                  <input
-                    className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
-                    type="checkbox"
-                    id={field.name}
-                    name={field.name}
-                    onChange={(e) => field.handleChange(e.target.checked)}
                   />
                 </label>
               </>
