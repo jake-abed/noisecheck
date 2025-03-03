@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import ReleaseForm from "./release_form";
 import type { TApiError } from "~/types/errors";
 import type { TRelease, TReleaseViewProps } from "~/types/releases";
+import type { TReleaseWithTracks } from "~/types/api_results";
 
 export default function ReleaseView({ releaseId }: TReleaseViewProps) {
-  const { data, isLoading } = useQuery({
+  const [editing, setEditing] = useState<boolean>(false);
+  const { data, error, isError, isLoading } = useQuery({
     queryFn: async () => {
       const res = await fetch(
         "https://happy-heartily-kid.ngrok-free.app/api/releases/" + releaseId,
@@ -18,29 +22,35 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
 
       if (res.status != 200) {
         const body = (await res.json()) as TApiError;
-        return body;
+        throw new Error(body.error);
       }
 
-      const body = (await res.json()) as TRelease;
+      const body = (await res.json()) as TReleaseWithTracks;
       return body;
     },
     queryKey: ["data"],
   });
 
-  if (data && "error" in data) {
+  if (isError) {
     return (
       <div>
         <p>Uh oh! Something went wrong!</p>
-        <p>{data.error}</p>
+        <p>
+          {error.name}: {error.message}
+        </p>
       </div>
     );
   }
 
   return (
-    <div>
-      {isLoading ? "loading" : `/releases/${data?.id}/view`}
+    <div className="mx-auto flex justify-center items-">
+      {isLoading ? "loading" : undefined}
       {!isLoading && data ? (
-        <img src={data.image_url} height="100px" width="100px" />
+        <div className="flex justify-between items-center gap-8">
+          <p>{data.release?.name}</p>
+          <img src={data.release?.imageUrl} height="100px" width="100px" />
+          {data.tracks?.map((t) => <p>{t.name}</p>)}
+        </div>
       ) : undefined}
     </div>
   );

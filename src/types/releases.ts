@@ -3,10 +3,12 @@ import { TCrudActions } from "./misc";
 export type TRelease = {
   id: number;
   name: string;
-  user_id?: string;
+  userId?: string;
   url?: string;
-  image_url: string;
-  is_public: boolean;
+  imageUrl: string;
+  isPublic: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type TReleaseProps = {

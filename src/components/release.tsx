@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { TRelease } from "../types/releases";
 
-export function Release({ id, name, image_url }: TRelease) {
+export function Release({ id, name, imageUrl }: TRelease) {
   return (
     <div key={id} className="flex max-w-96">
       <Link
@@ -11,7 +11,7 @@ export function Release({ id, name, image_url }: TRelease) {
       >
         <div className="min-w-72 flex justify-between items-center gap-8">
           <p>{name}</p>
-          <img src={image_url} width={100} height={100} alt={name} />
+          <img src={imageUrl} width={100} height={100} alt={name} />
         </div>
       </Link>
     </div>

@@ -82,13 +82,13 @@ export default function TrackForm({
                   htmlFor={field.name}
                   className="inline w-full flex flex-col items-start gap-2"
                 >
-                  Choose a File:{" "}
-                  <span className="text-sm text-light">(png or jpg)</span>
+                  Choose a File:
+                  <span className="text-sm text-light"> (.wav or .flac)</span>
                   <input
                     className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
                     type="file"
                     required={true}
-                    accept=".jpg,.jpeg,.png"
+                    accept=".wav,.flac"
                     id={field.name}
                     name={field.name}
                     onChange={(e) => {
@@ -106,7 +106,7 @@ export default function TrackForm({
           type="submit"
           className="text-zinc-950 text-lg text-bold uppercase bg-rose-400 rounded p-3"
         >
-          {action} Release
+          {action} Track
         </button>
       </form>
     </div>
