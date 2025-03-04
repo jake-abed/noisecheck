@@ -44,10 +44,8 @@ export default function AddTrack(props: {
       );
 
       if (res.ok) {
-        // Reset the editing state
         setEditing(false);
 
-        // Call the refresh function if provided
         if (props.onTrackAdded) {
           try {
             await props.onTrackAdded();
@@ -56,11 +54,8 @@ export default function AddTrack(props: {
             console.error("Error refreshing data:", error);
           }
         }
-
-        // No need to navigate since we're already on the right page
-        // and the data will be refreshed
       } else {
-        throw new Error("Uh oh, couldn't post the song!");
+        throw new Error("Uh oh, we couldn't add the song!");
       }
     };
   };

@@ -42,8 +42,6 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   // Check if the current user is the owner of this release
   const isOwner = isUserLoaded && user && data?.release?.userId === user.id;
 
-  console.log(user?.id, data?.release);
-
   const handleEditTrack = (trackId: number) => {
     setEditingTrackId(trackId);
   };
