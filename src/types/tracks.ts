@@ -3,6 +3,9 @@ import type { TCrudActions } from "./misc";
 export type TTrack = {
   id: number;
   name: string;
+  length: number;
+  originalFileUrl: string;
+  mp3FileUrl: string;
   releaseId: number;
   createdAt?: string;
   updatedAt?: string;

@@ -1,12 +1,14 @@
 import TrackForm from "./track_form";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
-import { useNavigate } from "@tanstack/react-router";
 import type { TTrack, TTrackProps } from "~/types/tracks";
 
-export default function AddTrack(props: { releaseId: number }) {
+export default function AddTrack(props: {
+  releaseId: number;
+  onTrackAdded?: () => Promise<void>;
+}) {
   const [editing, setEditing] = useState(false);
-  const navigate = useNavigate({ from: "/releases/$releaseId/view" });
+  const { getToken } = useAuth();
 
   const handleAddTrackClick = () => {
     setEditing(true);
@@ -17,8 +19,6 @@ export default function AddTrack(props: { releaseId: number }) {
   };
 
   const postNewTrack = () => {
-    const { getToken } = useAuth();
-
     return async function (value: TTrackProps) {
       const token = await getToken();
 
@@ -44,10 +44,21 @@ export default function AddTrack(props: { releaseId: number }) {
       );
 
       if (res.ok) {
-        navigate({
-          to: "/releases/$releaseId/view",
-          params: { releaseId: String(props.releaseId) },
-        });
+        // Reset the editing state
+        setEditing(false);
+
+        // Call the refresh function if provided
+        if (props.onTrackAdded) {
+          try {
+            await props.onTrackAdded();
+            console.log("Data refresh completed");
+          } catch (error) {
+            console.error("Error refreshing data:", error);
+          }
+        }
+
+        // No need to navigate since we're already on the right page
+        // and the data will be refreshed
       } else {
         throw new Error("Uh oh, couldn't post the song!");
       }
