@@ -1,4 +1,5 @@
 import type { TCrudActions } from "./misc";
+import type { UseMutationResult } from "@tanstack/react-query";
 
 export type TTrack = {
   id: number;
@@ -14,8 +15,8 @@ export type TTrack = {
 export type TTrackProps = {
   id?: number;
   name: string;
-  releaseId: number;
+  releaseId?: number;
   file?: File;
   action: TCrudActions;
-  submitFn: () => (value: any) => Promise<void>;
+  mutation: UseMutationResult<void, Error, TTrackProps, unknown>;
 };

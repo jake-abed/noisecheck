@@ -12,7 +12,7 @@ export default function Header() {
       <div>
         <p>noisecheck</p>
       </div>
-      <nav className="w-8 h-8">
+      <nav className="w-12 h-8">
         <SignedOut>
           <SignInButton />
         </SignedOut>

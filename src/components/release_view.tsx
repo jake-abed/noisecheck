@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import TrackForm from "./track_form";
 import { useAuth, useUser } from "@clerk/clerk-react";
@@ -6,7 +6,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { TApiError } from "~/types/errors";
 import type { TReleaseViewProps } from "~/types/releases";
 import type { TReleaseWithTracks } from "~/types/api_results";
-import type { TTrack } from "~/types/tracks";
+import type { TTrack, TTrackProps } from "~/types/tracks";
 
 export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   const [editingTrackId, setEditingTrackId] = useState<number | null>(null);
@@ -91,8 +91,8 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
     });
   };
 
-  const updateTrack = (track: TTrack) => {
-    return async function (value: any) {
+  const updateTrackMutation = useMutation({
+    mutationFn: async (value: TTrackProps) => {
       const token = await getToken();
 
       const basicInfo = {
@@ -107,7 +107,7 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
       }
 
       const res = await fetch(
-        `https://happy-heartily-kid.ngrok-free.app/api/tracks/${track.id}`,
+        `https://happy-heartily-kid.ngrok-free.app/api/tracks/${value.id}`,
         {
           method: "PUT",
           mode: "cors",
@@ -124,8 +124,8 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
       } else {
         throw new Error("Couldn't update the track!");
       }
-    };
-  };
+    },
+  });
 
   if (isError) {
     return (
@@ -194,7 +194,7 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
                       <TrackForm
                         name={track.name}
                         releaseId={Number(releaseId)}
-                        submitFn={() => updateTrack(track)}
+                        mutation={updateTrackMutation}
                         action="update"
                       />
                       <button

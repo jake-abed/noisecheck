@@ -34,14 +34,11 @@ function RouteComponent() {
   });
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center gap-4 p-8">
       {isLoading ? (
         "loading"
       ) : (
-        <>
-          <p>Hey!</p>
-          {data && data?.data?.map((r) => <Release {...r} />)}
-        </>
+        <>{data && data?.data?.map((r) => <Release {...r} />)}</>
       )}
       <Link to={"/user/new-release"}>New Release</Link>
     </div>

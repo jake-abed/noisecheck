@@ -7,14 +7,9 @@ export default function TrackForm({
   name,
   releaseId,
   file,
-  submitFn,
+  mutation,
   action,
 }: TTrackProps) {
-  const trackMutation = useMutation({
-    mutationFn: submitFn(),
-    mutationKey: ["data"],
-  });
-
   const form = useForm({
     defaultValues: {
       name: name,
@@ -22,11 +17,11 @@ export default function TrackForm({
       file: file,
     },
     onSubmit: async ({ value }) => {
-      trackMutation.mutate(value);
+      mutation.mutate({ ...value, action, mutation });
     },
   });
 
-  if (trackMutation.isPending) {
+  if (mutation.isPending) {
     return <p>loading...</p>;
   }
 

@@ -1,7 +1,8 @@
 import TrackForm from "./track_form";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
-import type { TTrack, TTrackProps } from "~/types/tracks";
+import { useMutation } from "@tanstack/react-query";
+import type { TTrackProps } from "~/types/tracks";
 
 export default function AddTrack(props: {
   releaseId: number;
@@ -18,8 +19,8 @@ export default function AddTrack(props: {
     setEditing(false);
   };
 
-  const postNewTrack = () => {
-    return async function (value: TTrackProps) {
+  const trackMutation = useMutation({
+    mutationFn: async (value: TTrackProps) => {
       const token = await getToken();
 
       const basicInfo = {
@@ -57,8 +58,8 @@ export default function AddTrack(props: {
       } else {
         throw new Error("Uh oh, we couldn't add the song!");
       }
-    };
-  };
+    },
+  });
 
   if (!editing) {
     return (
@@ -74,7 +75,7 @@ export default function AddTrack(props: {
         <TrackForm
           name=""
           releaseId={props.releaseId}
-          submitFn={postNewTrack}
+          mutation={trackMutation}
           action="create"
         />
         <button type="button" onClick={handleCancelClick}>
