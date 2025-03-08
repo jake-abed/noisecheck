@@ -1,12 +1,13 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import TrackForm from "./track_form";
+import AddTrack from "./add_track";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "@tanstack/react-router";
 import type { TApiError } from "~/types/errors";
 import type { TReleaseViewProps } from "~/types/releases";
 import type { TReleaseWithTracks } from "~/types/api_results";
-import type { TTrack, TTrackProps } from "~/types/tracks";
+import type { TTrackProps } from "~/types/tracks";
 
 export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   const [editingTrackId, setEditingTrackId] = useState<number | null>(null);
@@ -14,6 +15,17 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   const { getToken } = useAuth();
   const { user, isLoaded: isUserLoaded } = useUser();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const refreshReleaseData = async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ["release", releaseId],
+    });
+
+    await queryClient.invalidateQueries({
+      queryKey: ["tracks", releaseId],
+    });
+  };
 
   const { data, error, isError, isLoading, refetch } = useQuery({
     queryFn: async () => {
@@ -39,7 +51,6 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
     queryKey: ["release", releaseId],
   });
 
-  // Check if the current user is the owner of this release
   const isOwner = isUserLoaded && user && data?.release?.userId === user.id;
 
   const handleEditTrack = (trackId: number) => {
@@ -181,6 +192,10 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
               >
                 {isDeleting ? "Deleting..." : "Delete Release"}
               </button>
+              <AddTrack
+                releaseId={Number(releaseId)}
+                onTrackAdded={refreshReleaseData}
+              />
             </div>
           )}
 
