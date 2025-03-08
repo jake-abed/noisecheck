@@ -7,13 +7,9 @@ export default function ReleaseForm({
   name,
   isPublic,
   file,
-  submitFn,
+  mutation,
   action,
 }: TReleaseProps) {
-  const newReleaseMutation = useMutation({
-    mutationFn: submitFn(),
-  });
-
   const form = useForm({
     defaultValues: {
       name: name,
@@ -21,11 +17,13 @@ export default function ReleaseForm({
       file: file,
     },
     onSubmit: async ({ value }) => {
-      newReleaseMutation.mutate(value);
+      if (value) {
+        mutation.mutate({ ...value, action, mutation });
+      }
     },
   });
 
-  if (newReleaseMutation.isPending) {
+  if (mutation.isPending) {
     return <p>loading...</p>;
   }
 

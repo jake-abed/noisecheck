@@ -1,4 +1,5 @@
 import { TCrudActions } from "./misc";
+import type { UseMutationResult } from "@tanstack/react-query";
 
 export type TRelease = {
   id: number;
@@ -17,7 +18,7 @@ export type TReleaseProps = {
   isPublic: boolean;
   file?: File;
   action: TCrudActions;
-  submitFn: () => (value: any) => Promise<void>;
+  mutation: UseMutationResult<void, Error, TReleaseProps, unknown>;
 };
 
 export type TReleaseViewProps = {
