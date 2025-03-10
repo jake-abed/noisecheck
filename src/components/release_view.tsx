@@ -178,25 +178,27 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
 
           {/* Owner-specific controls */}
           {isOwner && (
-            <div className="flex gap-2 mt-2 mb-4">
-              <button
-                onClick={handleEditRelease}
-                className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
-              >
-                Edit Release
-              </button>
-              <button
-                onClick={handleDeleteRelease}
-                disabled={isDeleting}
-                className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-white text-sm"
-              >
-                {isDeleting ? "Deleting..." : "Delete Release"}
-              </button>
+            <>
+              <div className="flex gap-2 mt-2 mb-4">
+                <button
+                  onClick={handleEditRelease}
+                  className="px-3 py-1 bg-cyan-700 hover:bg-cyan-800 rounded text-white text-sm"
+                >
+                  Edit Release
+                </button>
+                <button
+                  onClick={handleDeleteRelease}
+                  disabled={isDeleting}
+                  className="px-3 py-1 bg-rose-700 hover:bg-rose-800 rounded text-white text-sm"
+                >
+                  {isDeleting ? "Deleting..." : "Delete Release"}
+                </button>
+              </div>
               <AddTrack
                 releaseId={Number(releaseId)}
                 onTrackAdded={refreshReleaseData}
               />
-            </div>
+            </>
           )}
 
           <div className="border-t border-zinc-700 pt-4">

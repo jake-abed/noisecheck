@@ -3,7 +3,7 @@ import { SignedIn } from "@clerk/clerk-react";
 
 export default function Nav() {
   return (
-    <div className="p-2 flex gap-4 text-lg items-center">
+    <div className="p-2 flex gap-4 text-xl items-center font-header">
       <Link
         to="/"
         activeProps={{

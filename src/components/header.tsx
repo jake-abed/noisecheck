@@ -10,7 +10,7 @@ export default function Header() {
     <header className="w-full h-12 bg-rose-500 flex justify-between items-center p-4">
       <div></div>
       <div>
-        <p>noisecheck</p>
+        <p className="font-header text-2xl">noisecheck</p>
       </div>
       <nav className="w-12 h-8">
         <SignedOut>

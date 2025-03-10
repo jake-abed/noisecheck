@@ -1,7 +1,7 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
 import { titleCaseWord } from "../utils/utils";
 import { TTrackProps } from "~/types/tracks";
+import { Input } from "./ui/input";
 
 export default function TrackForm({
   name,
@@ -26,7 +26,7 @@ export default function TrackForm({
   }
 
   return (
-    <div>
+    <div className="font-sans">
       <h2>{titleCaseWord(action)} Track</h2>
       <form
         onSubmit={(e) => {
@@ -54,7 +54,7 @@ export default function TrackForm({
                   className="inline w-full flex flex-col items-start gap-2"
                 >
                   Release Name:
-                  <input
+                  <Input
                     className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
                     type="text"
                     id={field.name}
@@ -79,7 +79,7 @@ export default function TrackForm({
                 >
                   Choose a File:
                   <span className="text-sm text-light"> (.wav or .flac)</span>
-                  <input
+                  <Input
                     className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
                     type="file"
                     required={true}

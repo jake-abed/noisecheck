@@ -1,7 +1,10 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
 import { titleCaseWord } from "~/utils/utils";
+import { Input } from "./ui/input";
+import { Card } from "./ui/card";
 import type { TReleaseProps } from "~/types/releases";
+import { Checkbox } from "./ui/checkbox";
+import { cn } from "~/lib/utils";
 
 export default function ReleaseForm({
   name,
@@ -28,41 +31,36 @@ export default function ReleaseForm({
   }
 
   return (
-    <div>
-      <h2>{titleCaseWord(action)} Track</h2>
+    <Card className={cn("w-[380px] bg-zinc-800")}>
+      <h2 className="text-center font-header">{titleCaseWord(action)} Track</h2>
       <form
+        className="flex flex-col gap-8 p-4"
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="flex flex-col mx-auto max-w-72 gap-4 bg-zinc-800 p-6 rounded-lg shadow-md"
       >
         <form.Field
           name="name"
           validators={{
             onChange: ({ value }) => {
               if (!value) return "A name is required!";
-              if (value.length < 3)
-                return "Name must be greater than 3 characters!";
+              if (value.length < 3) return "Must be 3 or more characters!";
               return undefined;
             },
           }}
           children={(field) => {
             return (
               <>
-                <label
-                  htmlFor={field.name}
-                  className="inline w-full flex flex-col items-start gap-2 text-white"
-                >
+                <label htmlFor={field.name}>
                   Release Name:
-                  <input
-                    className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
+                  <Input
                     type="text"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
-                    placeholder={"Some Name"}
+                    placeholder={"Your Release's Name"}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
                   {field.state.meta.isTouched && field.state.meta.errors ? (
@@ -82,15 +80,15 @@ export default function ReleaseForm({
               <>
                 <label
                   htmlFor={field.name}
-                  className="inline w-full flex flex-col items-start gap-2 text-white"
+                  className="flex items-center gap-2 text-white"
                 >
                   Public?
-                  <input
-                    className="w-full mt-2 px-2 py-1 bg-zinc-100 rounded text-zinc-950"
-                    type="checkbox"
+                  <Checkbox
                     id={field.name}
                     name={field.name}
-                    onChange={(e) => field.handleChange(e.target.checked)}
+                    checked={field.state.value}
+                    //@ts-ignore
+                    onCheckedChange={field.handleChange}
                   />
                 </label>
               </>
@@ -184,6 +182,6 @@ export default function ReleaseForm({
           {action} Release
         </button>
       </form>
-    </div>
+    </Card>
   );
 }

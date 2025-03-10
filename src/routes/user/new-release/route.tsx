@@ -12,10 +12,10 @@ function RouteComponent() {
   const mutation = useNewReleaseMutation();
 
   return (
-    <div>
+    <div className="flex justify-center font-display">
       <ReleaseForm
         name=""
-        isPublic={false}
+        isPublic={true}
         mutation={mutation}
         action="create"
       />
