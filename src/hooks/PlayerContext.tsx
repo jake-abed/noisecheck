@@ -1,24 +1,18 @@
 import React, { createContext, useState } from 'react';
-import { TTrackContext } from '~/types/misc';
+import { TPlayerInfo, TPlayerContext } from '~/types/misc';
 
-export const TrackContext = createContext<
-	| {
-			trackContext: TTrackContext | undefined;
-			setTrackContext: React.Dispatch<
-				React.SetStateAction<TTrackContext | undefined>
-			>;
-	  }
-	| undefined
->(undefined);
+const initialValues: TPlayerInfo = { playlist: [], queue: [] };
 
-export const TrackProvider = ({ children }: { children: React.ReactNode }) => {
-	const [trackContext, setTrackContext] = useState<TTrackContext | undefined>(
-		undefined
-	);
+export const PlayerContext = createContext<TPlayerContext>({
+	playerInfo: initialValues,
+});
+
+export const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
+	const [playerInfo, setPlayerInfo] = useState<TPlayerInfo>(initialValues);
 
 	return (
-		<TrackContext.Provider value={{ trackContext, setTrackContext }}>
+		<PlayerContext.Provider value={{ playerInfo, setPlayerInfo }}>
 			{children}
-		</TrackContext.Provider>
+		</PlayerContext.Provider>
 	);
 };

@@ -6,7 +6,8 @@ import { Route as rootRoute } from './routes/__root';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { TrackProvider } from './hooks/PlayerContext';
+import { PlayerProvider } from './hooks/PlayerContext';
+import MusicPlayer from './components/music_player';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -43,9 +44,10 @@ if (!rootElement.innerHTML) {
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools initialIsOpen={false} />
 			<ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
-				<TrackProvider>
+				<PlayerProvider>
 					<RouterProvider router={router} />
-				</TrackProvider>
+					<MusicPlayer />
+				</PlayerProvider>
 			</ClerkProvider>
 		</QueryClientProvider>
 	);
