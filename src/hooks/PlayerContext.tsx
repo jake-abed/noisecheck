@@ -1,18 +1,18 @@
-import React, { createContext, useState } from 'react';
-import { TPlayerInfo, TPlayerContext } from '~/types/misc';
+import React, { createContext, useState } from "react";
+import { TPlayerInfo, TPlayerContext } from "~/types/misc";
 
 const initialValues: TPlayerInfo = { playlist: [], queue: [] };
 
 export const PlayerContext = createContext<TPlayerContext>({
-	playerInfo: initialValues,
+  playerInfo: initialValues,
 });
 
 export const PlayerProvider = ({ children }: { children: React.ReactNode }) => {
-	const [playerInfo, setPlayerInfo] = useState<TPlayerInfo>(initialValues);
+  const [playerInfo, setPlayerInfo] = useState<TPlayerInfo>(initialValues);
 
-	return (
-		<PlayerContext.Provider value={{ playerInfo, setPlayerInfo }}>
-			{children}
-		</PlayerContext.Provider>
-	);
+  return (
+    <PlayerContext.Provider value={{ playerInfo, setPlayerInfo }}>
+      {children}
+    </PlayerContext.Provider>
+  );
 };

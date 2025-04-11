@@ -6,6 +6,11 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": "https://happy-heartily-kid.ngrok-free.app",
+    },
+  },
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "./src"),

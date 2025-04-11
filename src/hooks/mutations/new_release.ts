@@ -27,15 +27,12 @@ const postNewRelease = () => {
       formData.append("file", value.file);
     }
 
-    const res = await fetch(
-      "https://happy-heartily-kid.ngrok-free.app/api/releases",
-      {
-        method: "POST",
-        mode: "cors",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      },
-    );
+    const res = await fetch("/api/releases", {
+      method: "POST",
+      mode: "cors",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
 
     const body = (await res.json()) as TRelease;
 

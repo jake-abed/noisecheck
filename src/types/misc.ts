@@ -4,12 +4,12 @@ import type { Dispatch, SetStateAction } from "react";
 export type TCrudActions = "create" | "update" | "delete" | "view";
 
 export type TPlayerInfo = {
-	currentTrack?: number;
-	playlist: TTrack[];
-	queue: TTrack[];
-}
+  currentTrack?: number;
+  playlist: TTrack[];
+  queue: TTrack[];
+};
 
 export type TPlayerContext = {
-	playerInfo: TPlayerInfo;
-	setPlayerInfo?: Dispatch<SetStateAction<TPlayerInfo>>;
-}
+  playerInfo: TPlayerInfo;
+  setPlayerInfo?: Dispatch<SetStateAction<TPlayerInfo>>;
+};

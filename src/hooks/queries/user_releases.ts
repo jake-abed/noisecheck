@@ -7,7 +7,7 @@ export function createUserReleasesQueryOptions() {
   return queryOptions({
     queryFn: async () => {
       const token = await getToken();
-      const url = `https://happy-heartily-kid.ngrok-free.app/api/users/${userId}/releases`;
+      const url = `/api/users/${userId}/releases`;
       const res = await fetch(url, {
         method: "GET",
         mode: "cors",
