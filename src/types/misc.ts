@@ -7,6 +7,7 @@ export type TPlayerInfo = {
   currentTrack?: number;
   playlist: TTrack[];
   queue: TTrack[];
+  playing: boolean;
 };
 
 export type TPlayerContext = {

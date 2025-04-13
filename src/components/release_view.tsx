@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import TrackForm from "./track_form";
 import AddTrack from "./add_track";
 import { useAuth, useUser } from "@clerk/clerk-react";
@@ -8,6 +8,7 @@ import type { TApiError } from "~/types/errors";
 import type { TReleaseViewProps } from "~/types/releases";
 import type { TReleaseWithTracks } from "~/types/api_results";
 import type { TTrackProps } from "~/types/tracks";
+import { PlayerContext } from "~/hooks/PlayerContext";
 
 export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   const [editingTrackId, setEditingTrackId] = useState<number | null>(null);
@@ -16,6 +17,8 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
   const { user, isLoaded: isUserLoaded } = useUser();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const { playerInfo, setPlayerInfo } = useContext(PlayerContext);
 
   const refreshReleaseData = async () => {
     await queryClient.invalidateQueries({
@@ -99,6 +102,19 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
     navigate({
       to: "/releases/$releaseId/view",
       params: { releaseId: releaseId },
+    });
+  };
+
+  const handlePlayTrack = (trackIdx: number) => {
+    if (!data) return;
+    if (data.tracks.length === 0) return;
+    if (!setPlayerInfo) return;
+
+    setPlayerInfo({
+      ...playerInfo,
+      currentTrack: trackIdx,
+      playlist: data.tracks,
+      playing: true,
     });
   };
 
@@ -204,7 +220,7 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
           <div className="border-t border-zinc-700 pt-4">
             <h3 className="text-lg font-semibold mb-2">Tracks</h3>
             <div className="flex flex-col gap-2">
-              {data.tracks?.map((track) => (
+              {data.tracks?.map((track, idx) => (
                 <div key={track.id}>
                   {editingTrackId === track.id ? (
                     <div className="bg-zinc-700 p-3 rounded-lg">
@@ -239,6 +255,7 @@ export default function ReleaseView({ releaseId }: TReleaseViewProps) {
                           Edit
                         </button>
                       )}
+                      <p onClick={() => handlePlayTrack(idx)}>Play</p>
                     </div>
                   )}
                 </div>

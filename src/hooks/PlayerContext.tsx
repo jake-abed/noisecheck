@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { TPlayerInfo, TPlayerContext } from "~/types/misc";
 
-const initialValues: TPlayerInfo = { playlist: [], queue: [] };
+const initialValues: TPlayerInfo = { playlist: [], queue: [], playing: false };
 
 export const PlayerContext = createContext<TPlayerContext>({
   playerInfo: initialValues,
