@@ -14,7 +14,7 @@ function RouteComponent() {
         <h2 className="">User Profile</h2>
         <img
           src={user?.imageUrl}
-          className="rounded-full"
+          className="rounded-full min-h-[50px] aspect-square"
           height={50}
           width={50}
         />

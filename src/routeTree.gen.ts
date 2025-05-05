@@ -17,6 +17,7 @@ import { Route as ReleasesIndexImport } from './routes/releases/index'
 import { Route as UserReleasesRouteImport } from './routes/user/releases/route'
 import { Route as UserProfileRouteImport } from './routes/user/profile/route'
 import { Route as UserNewReleaseRouteImport } from './routes/user/new-release/route'
+import { Route as UserUserIdRouteImport } from './routes/user/$userId/route'
 import { Route as ReleasesReleaseIdViewImport } from './routes/releases/$releaseId/view'
 
 // Create/Update Routes
@@ -57,6 +58,12 @@ const UserNewReleaseRouteRoute = UserNewReleaseRouteImport.update({
   getParentRoute: () => UserRouteRoute,
 } as any)
 
+const UserUserIdRouteRoute = UserUserIdRouteImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => UserRouteRoute,
+} as any)
+
 const ReleasesReleaseIdViewRoute = ReleasesReleaseIdViewImport.update({
   id: '/releases/$releaseId/view',
   path: '/releases/$releaseId/view',
@@ -80,6 +87,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/user'
       preLoaderRoute: typeof UserRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/user/$userId': {
+      id: '/user/$userId'
+      path: '/$userId'
+      fullPath: '/user/$userId'
+      preLoaderRoute: typeof UserUserIdRouteImport
+      parentRoute: typeof UserRouteImport
     }
     '/user/new-release': {
       id: '/user/new-release'
@@ -122,12 +136,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface UserRouteRouteChildren {
+  UserUserIdRouteRoute: typeof UserUserIdRouteRoute
   UserNewReleaseRouteRoute: typeof UserNewReleaseRouteRoute
   UserProfileRouteRoute: typeof UserProfileRouteRoute
   UserReleasesRouteRoute: typeof UserReleasesRouteRoute
 }
 
 const UserRouteRouteChildren: UserRouteRouteChildren = {
+  UserUserIdRouteRoute: UserUserIdRouteRoute,
   UserNewReleaseRouteRoute: UserNewReleaseRouteRoute,
   UserProfileRouteRoute: UserProfileRouteRoute,
   UserReleasesRouteRoute: UserReleasesRouteRoute,
@@ -140,6 +156,7 @@ const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
+  '/user/$userId': typeof UserUserIdRouteRoute
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
@@ -150,6 +167,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
+  '/user/$userId': typeof UserUserIdRouteRoute
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
@@ -161,6 +179,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
+  '/user/$userId': typeof UserUserIdRouteRoute
   '/user/new-release': typeof UserNewReleaseRouteRoute
   '/user/profile': typeof UserProfileRouteRoute
   '/user/releases': typeof UserReleasesRouteRoute
@@ -173,6 +192,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/user'
+    | '/user/$userId'
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
@@ -182,6 +202,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/user'
+    | '/user/$userId'
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
@@ -191,6 +212,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/user'
+    | '/user/$userId'
     | '/user/new-release'
     | '/user/profile'
     | '/user/releases'
@@ -235,10 +257,15 @@ export const routeTree = rootRoute
     "/user": {
       "filePath": "user/route.tsx",
       "children": [
+        "/user/$userId",
         "/user/new-release",
         "/user/profile",
         "/user/releases"
       ]
+    },
+    "/user/$userId": {
+      "filePath": "user/$userId/route.tsx",
+      "parent": "/user"
     },
     "/user/new-release": {
       "filePath": "user/new-release/route.tsx",

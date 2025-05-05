@@ -4,12 +4,13 @@ import type { UseMutationResult } from "@tanstack/react-query";
 export type TRelease = {
   id: number;
   name: string;
-  userId?: string;
+  userId: string;
   url?: string;
   imageUrl: string;
   isPublic: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  username?: string;
 };
 
 export type TReleaseProps = {
