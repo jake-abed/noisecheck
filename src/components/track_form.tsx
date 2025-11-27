@@ -51,7 +51,7 @@ export default function TrackForm({
               <>
                 <label
                   htmlFor={field.name}
-                  className="inline w-full flex flex-col items-start gap-2"
+                  className="w-full flex flex-col items-start gap-2"
                 >
                   Release Name:
                   <Input
@@ -75,7 +75,7 @@ export default function TrackForm({
               <>
                 <label
                   htmlFor={field.name}
-                  className="inline w-full flex flex-col items-start gap-2"
+                  className="w-full flex flex-col items-start gap-2"
                 >
                   Choose a File:
                   <span className="text-sm text-light"> (.wav or .flac)</span>
