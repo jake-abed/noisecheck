@@ -33,7 +33,7 @@ export default function ReleaseView({ releaseId }: ReleaseViewProps) {
   const { data, error, isError, isLoading, refetch } = useQuery({
     queryFn: async () => {
       const res = await fetch(
-        "https://happy-heartily-kid.ngrok-free.app/api/releases/" + releaseId,
+        "/api/releases/" + releaseId,
         {
           method: "GET",
           mode: "cors",
@@ -72,7 +72,7 @@ export default function ReleaseView({ releaseId }: ReleaseViewProps) {
       const token = await getToken();
 
       const res = await fetch(
-        `https://happy-heartily-kid.ngrok-free.app/api/releases/${data.release.id}`,
+        `/api/releases/${data.release.id}`,
         {
           method: "DELETE",
           mode: "cors",
@@ -134,7 +134,7 @@ export default function ReleaseView({ releaseId }: ReleaseViewProps) {
       }
 
       const res = await fetch(
-        `https://happy-heartily-kid.ngrok-free.app/api/tracks/${value.id}`,
+        `/api/tracks/${value.id}`,
         {
           method: "PUT",
           mode: "cors",

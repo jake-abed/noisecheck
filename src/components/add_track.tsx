@@ -35,7 +35,7 @@ export default function AddTrack(props: {
       }
 
       const res = await fetch(
-        "https://happy-heartily-kid.ngrok-free.app/api/tracks",
+        "/api/tracks",
         {
           method: "POST",
           mode: "cors",
