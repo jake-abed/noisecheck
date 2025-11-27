@@ -2,7 +2,7 @@ import TrackForm from "./track_form";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
-import type { TTrackProps } from "~/types/tracks";
+import type { TrackProps } from "~/types/tracks";
 
 export default function AddTrack(props: {
   releaseId: number;
@@ -20,7 +20,7 @@ export default function AddTrack(props: {
   };
 
   const trackMutation = useMutation({
-    mutationFn: async (value: TTrackProps) => {
+    mutationFn: async (value: TrackProps) => {
       const token = await getToken();
 
       const basicInfo = {

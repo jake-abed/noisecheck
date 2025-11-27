@@ -10,136 +10,136 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as UserRouteImport } from './routes/user/route'
-import { Route as IndexImport } from './routes/index'
-import { Route as ReleasesIndexImport } from './routes/releases/index'
-import { Route as UserReleasesRouteImport } from './routes/user/releases/route'
-import { Route as UserProfileRouteImport } from './routes/user/profile/route'
-import { Route as UserNewReleaseRouteImport } from './routes/user/new-release/route'
-import { Route as UserUserIdRouteImport } from './routes/user/$userId/route'
-import { Route as ReleasesReleaseIdViewImport } from './routes/releases/$releaseId/view'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as UserRouteImport } from "./routes/user/route";
+import { Route as IndexImport } from "./routes/index";
+import { Route as ReleasesIndexImport } from "./routes/releases/index";
+import { Route as UserReleasesRouteImport } from "./routes/user/releases/route";
+import { Route as UserProfileRouteImport } from "./routes/user/profile/route";
+import { Route as UserNewReleaseRouteImport } from "./routes/user/new-release/route";
+import { Route as UserUserIdRouteImport } from "./routes/user/$userId/route";
+import { Route as ReleasesReleaseIdViewImport } from "./routes/releases/$releaseId/view";
 
 // Create/Update Routes
 
 const UserRouteRoute = UserRouteImport.update({
-  id: '/user',
-  path: '/user',
+  id: "/user",
+  path: "/user",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const ReleasesIndexRoute = ReleasesIndexImport.update({
-  id: '/releases/',
-  path: '/releases/',
+  id: "/releases/",
+  path: "/releases/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const UserReleasesRouteRoute = UserReleasesRouteImport.update({
-  id: '/releases',
-  path: '/releases',
+  id: "/releases",
+  path: "/releases",
   getParentRoute: () => UserRouteRoute,
-} as any)
+} as any);
 
 const UserProfileRouteRoute = UserProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+  id: "/profile",
+  path: "/profile",
   getParentRoute: () => UserRouteRoute,
-} as any)
+} as any);
 
 const UserNewReleaseRouteRoute = UserNewReleaseRouteImport.update({
-  id: '/new-release',
-  path: '/new-release',
+  id: "/new-release",
+  path: "/new-release",
   getParentRoute: () => UserRouteRoute,
-} as any)
+} as any);
 
 const UserUserIdRouteRoute = UserUserIdRouteImport.update({
-  id: '/$userId',
-  path: '/$userId',
+  id: "/$userId",
+  path: "/$userId",
   getParentRoute: () => UserRouteRoute,
-} as any)
+} as any);
 
 const ReleasesReleaseIdViewRoute = ReleasesReleaseIdViewImport.update({
-  id: '/releases/$releaseId/view',
-  path: '/releases/$releaseId/view',
+  id: "/releases/$releaseId/view",
+  path: "/releases/$releaseId/view",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/user': {
-      id: '/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof UserRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/user/$userId': {
-      id: '/user/$userId'
-      path: '/$userId'
-      fullPath: '/user/$userId'
-      preLoaderRoute: typeof UserUserIdRouteImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/new-release': {
-      id: '/user/new-release'
-      path: '/new-release'
-      fullPath: '/user/new-release'
-      preLoaderRoute: typeof UserNewReleaseRouteImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/profile': {
-      id: '/user/profile'
-      path: '/profile'
-      fullPath: '/user/profile'
-      preLoaderRoute: typeof UserProfileRouteImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/releases': {
-      id: '/user/releases'
-      path: '/releases'
-      fullPath: '/user/releases'
-      preLoaderRoute: typeof UserReleasesRouteImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/releases/': {
-      id: '/releases/'
-      path: '/releases'
-      fullPath: '/releases'
-      preLoaderRoute: typeof ReleasesIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/releases/$releaseId/view': {
-      id: '/releases/$releaseId/view'
-      path: '/releases/$releaseId/view'
-      fullPath: '/releases/$releaseId/view'
-      preLoaderRoute: typeof ReleasesReleaseIdViewImport
-      parentRoute: typeof rootRoute
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/user": {
+      id: "/user";
+      path: "/user";
+      fullPath: "/user";
+      preLoaderRoute: typeof UserRouteImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/user/$userId": {
+      id: "/user/$userId";
+      path: "/$userId";
+      fullPath: "/user/$userId";
+      preLoaderRoute: typeof UserUserIdRouteImport;
+      parentRoute: typeof UserRouteImport;
+    };
+    "/user/new-release": {
+      id: "/user/new-release";
+      path: "/new-release";
+      fullPath: "/user/new-release";
+      preLoaderRoute: typeof UserNewReleaseRouteImport;
+      parentRoute: typeof UserRouteImport;
+    };
+    "/user/profile": {
+      id: "/user/profile";
+      path: "/profile";
+      fullPath: "/user/profile";
+      preLoaderRoute: typeof UserProfileRouteImport;
+      parentRoute: typeof UserRouteImport;
+    };
+    "/user/releases": {
+      id: "/user/releases";
+      path: "/releases";
+      fullPath: "/user/releases";
+      preLoaderRoute: typeof UserReleasesRouteImport;
+      parentRoute: typeof UserRouteImport;
+    };
+    "/releases/": {
+      id: "/releases/";
+      path: "/releases";
+      fullPath: "/releases";
+      preLoaderRoute: typeof ReleasesIndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/releases/$releaseId/view": {
+      id: "/releases/$releaseId/view";
+      path: "/releases/$releaseId/view";
+      fullPath: "/releases/$releaseId/view";
+      preLoaderRoute: typeof ReleasesReleaseIdViewImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface UserRouteRouteChildren {
-  UserUserIdRouteRoute: typeof UserUserIdRouteRoute
-  UserNewReleaseRouteRoute: typeof UserNewReleaseRouteRoute
-  UserProfileRouteRoute: typeof UserProfileRouteRoute
-  UserReleasesRouteRoute: typeof UserReleasesRouteRoute
+  UserUserIdRouteRoute: typeof UserUserIdRouteRoute;
+  UserNewReleaseRouteRoute: typeof UserNewReleaseRouteRoute;
+  UserProfileRouteRoute: typeof UserProfileRouteRoute;
+  UserReleasesRouteRoute: typeof UserReleasesRouteRoute;
 }
 
 const UserRouteRouteChildren: UserRouteRouteChildren = {
@@ -147,85 +147,85 @@ const UserRouteRouteChildren: UserRouteRouteChildren = {
   UserNewReleaseRouteRoute: UserNewReleaseRouteRoute,
   UserProfileRouteRoute: UserProfileRouteRoute,
   UserReleasesRouteRoute: UserReleasesRouteRoute,
-}
+};
 
 const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
   UserRouteRouteChildren,
-)
+);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/user': typeof UserRouteRouteWithChildren
-  '/user/$userId': typeof UserUserIdRouteRoute
-  '/user/new-release': typeof UserNewReleaseRouteRoute
-  '/user/profile': typeof UserProfileRouteRoute
-  '/user/releases': typeof UserReleasesRouteRoute
-  '/releases': typeof ReleasesIndexRoute
-  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
+  "/": typeof IndexRoute;
+  "/user": typeof UserRouteRouteWithChildren;
+  "/user/$userId": typeof UserUserIdRouteRoute;
+  "/user/new-release": typeof UserNewReleaseRouteRoute;
+  "/user/profile": typeof UserProfileRouteRoute;
+  "/user/releases": typeof UserReleasesRouteRoute;
+  "/releases": typeof ReleasesIndexRoute;
+  "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/user': typeof UserRouteRouteWithChildren
-  '/user/$userId': typeof UserUserIdRouteRoute
-  '/user/new-release': typeof UserNewReleaseRouteRoute
-  '/user/profile': typeof UserProfileRouteRoute
-  '/user/releases': typeof UserReleasesRouteRoute
-  '/releases': typeof ReleasesIndexRoute
-  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
+  "/": typeof IndexRoute;
+  "/user": typeof UserRouteRouteWithChildren;
+  "/user/$userId": typeof UserUserIdRouteRoute;
+  "/user/new-release": typeof UserNewReleaseRouteRoute;
+  "/user/profile": typeof UserProfileRouteRoute;
+  "/user/releases": typeof UserReleasesRouteRoute;
+  "/releases": typeof ReleasesIndexRoute;
+  "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/user': typeof UserRouteRouteWithChildren
-  '/user/$userId': typeof UserUserIdRouteRoute
-  '/user/new-release': typeof UserNewReleaseRouteRoute
-  '/user/profile': typeof UserProfileRouteRoute
-  '/user/releases': typeof UserReleasesRouteRoute
-  '/releases/': typeof ReleasesIndexRoute
-  '/releases/$releaseId/view': typeof ReleasesReleaseIdViewRoute
+  __root__: typeof rootRoute;
+  "/": typeof IndexRoute;
+  "/user": typeof UserRouteRouteWithChildren;
+  "/user/$userId": typeof UserUserIdRouteRoute;
+  "/user/new-release": typeof UserNewReleaseRouteRoute;
+  "/user/profile": typeof UserProfileRouteRoute;
+  "/user/releases": typeof UserReleasesRouteRoute;
+  "/releases/": typeof ReleasesIndexRoute;
+  "/releases/$releaseId/view": typeof ReleasesReleaseIdViewRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/'
-    | '/user'
-    | '/user/$userId'
-    | '/user/new-release'
-    | '/user/profile'
-    | '/user/releases'
-    | '/releases'
-    | '/releases/$releaseId/view'
-  fileRoutesByTo: FileRoutesByTo
+    | "/"
+    | "/user"
+    | "/user/$userId"
+    | "/user/new-release"
+    | "/user/profile"
+    | "/user/releases"
+    | "/releases"
+    | "/releases/$releaseId/view";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/'
-    | '/user'
-    | '/user/$userId'
-    | '/user/new-release'
-    | '/user/profile'
-    | '/user/releases'
-    | '/releases'
-    | '/releases/$releaseId/view'
+    | "/"
+    | "/user"
+    | "/user/$userId"
+    | "/user/new-release"
+    | "/user/profile"
+    | "/user/releases"
+    | "/releases"
+    | "/releases/$releaseId/view";
   id:
-    | '__root__'
-    | '/'
-    | '/user'
-    | '/user/$userId'
-    | '/user/new-release'
-    | '/user/profile'
-    | '/user/releases'
-    | '/releases/'
-    | '/releases/$releaseId/view'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/"
+    | "/user"
+    | "/user/$userId"
+    | "/user/new-release"
+    | "/user/profile"
+    | "/user/releases"
+    | "/releases/"
+    | "/releases/$releaseId/view";
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  UserRouteRoute: typeof UserRouteRouteWithChildren
-  ReleasesIndexRoute: typeof ReleasesIndexRoute
-  ReleasesReleaseIdViewRoute: typeof ReleasesReleaseIdViewRoute
+  IndexRoute: typeof IndexRoute;
+  UserRouteRoute: typeof UserRouteRouteWithChildren;
+  ReleasesIndexRoute: typeof ReleasesIndexRoute;
+  ReleasesReleaseIdViewRoute: typeof ReleasesReleaseIdViewRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -233,11 +233,11 @@ const rootRouteChildren: RootRouteChildren = {
   UserRouteRoute: UserRouteRouteWithChildren,
   ReleasesIndexRoute: ReleasesIndexRoute,
   ReleasesReleaseIdViewRoute: ReleasesReleaseIdViewRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

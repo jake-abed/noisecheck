@@ -3,8 +3,8 @@ import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
 import { useUser } from "@clerk/clerk-react";
 import { createPublicReleaseQueryOptions } from "~/hooks/queries/public_releases";
 import { useQuery } from "@tanstack/react-query";
-import type { TRelease } from "~/types/releases";
-import { Release } from "~/components/release";
+import type { Release } from "~/types/releases";
+import ReleaseCard from "~/components/release_card";
 import { Skeleton } from "~/components/ui/skeleton";
 
 export const Route = createFileRoute("/releases/")({
@@ -85,10 +85,10 @@ function RouteComponent() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-          {data?.map((release: TRelease) => <Release {...release} />)}
+          {data?.map((release: Release) => <ReleaseCard {...release} />)}
 
           {!isLoading &&
-            data?.filter((release: TRelease) => release.isPublic).length ===
+            data?.filter((release: Release) => release.isPublic).length ===
               0 && <p>No public releases available.</p>}
         </div>
       </div>

@@ -1,3 +1,3 @@
-export type TApiError = {
+export type ApiError = {
   error: string;
 };

@@ -1,7 +1,7 @@
-import { TRelease } from "./releases";
-import { TTrack } from "./tracks";
+import { Release } from "./releases";
+import { Track } from "./tracks";
 
-export type TReleaseWithTracks = {
-  release: TRelease;
-  tracks: Array<TTrack>;
+export type ReleaseWithTracks = {
+  release: Release;
+  tracks: Track[];
 };

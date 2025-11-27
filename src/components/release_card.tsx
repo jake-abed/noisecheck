@@ -1,7 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import type { TRelease } from "../types/releases";
+import type { Release } from "../types/releases";
 
-export function Release({ id, name, imageUrl, username, userId }: TRelease) {
+export default function ReleaseCard({
+  id,
+  name,
+  imageUrl,
+  username,
+  userId,
+}: Release) {
   return (
     <div key={id} className="flex max-w-96">
       <Link

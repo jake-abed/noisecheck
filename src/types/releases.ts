@@ -1,7 +1,7 @@
-import { TCrudActions } from "./misc";
+import { CrudActions } from "./misc";
 import type { UseMutationResult } from "@tanstack/react-query";
 
-export type TRelease = {
+export type Release = {
   id: number;
   name: string;
   userId: string;
@@ -13,15 +13,15 @@ export type TRelease = {
   username?: string;
 };
 
-export type TReleaseProps = {
+export type ReleaseProps = {
   id?: number;
   name: string;
   isPublic: boolean;
   file?: File;
-  action: TCrudActions;
-  mutation: UseMutationResult<void, Error, TReleaseProps, unknown>;
+  action: CrudActions;
+  mutation: UseMutationResult<void, Error, ReleaseProps, unknown>;
 };
 
-export type TReleaseViewProps = {
+export type ReleaseViewProps = {
   releaseId: string;
 };
