@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-react";
-import type { TRelease } from "~/types/releases";
+import type { Release } from "~/types/releases";
 
 export function createUserReleasesQueryOptions() {
   const { getToken, userId } = useAuth();
@@ -20,7 +20,7 @@ export function createUserReleasesQueryOptions() {
       if (res.status != 200) {
         return undefined;
       } else {
-        return (await res.json()) as { data: Array<TRelease> };
+        return (await res.json()) as { data: Array<Release> };
       }
     },
     queryKey: ["userReleases", userId],

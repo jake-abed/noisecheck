@@ -8,7 +8,7 @@ import type { ApiError } from "~/types/errors";
 import type { ReleaseWithTracks } from "~/types/api_results";
 import type { ReleaseViewProps } from "~/types/releases";
 import type { TrackProps } from "~/types/tracks";
-import { PlayerContext } from "~/hooks/PlayerContext";
+import { PlayerContextWrapper } from "~/hooks/PlayerContext";
 
 export default function ReleaseView({ releaseId }: ReleaseViewProps) {
   const [editingTrackId, setEditingTrackId] = useState<number | null>(null);
@@ -18,7 +18,7 @@ export default function ReleaseView({ releaseId }: ReleaseViewProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { playerInfo, setPlayerInfo } = useContext(PlayerContext);
+  const { playerInfo, setPlayerInfo } = useContext(PlayerContextWrapper);
 
   const refreshReleaseData = async () => {
     await queryClient.invalidateQueries({

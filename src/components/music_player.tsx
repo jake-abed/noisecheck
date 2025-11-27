@@ -1,5 +1,5 @@
 import React, { useRef, useState, useContext, useMemo } from "react";
-import { PlayerContext } from "~/hooks/PlayerContext";
+import { PlayerContextWrapper } from "~/hooks/PlayerContext";
 import {
   faHeadphones,
   faPlay,
@@ -13,7 +13,7 @@ import ReactPlayer from "react-player";
 export default function MusicPlayer() {
   const [hidden, setHidden] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.5);
-  const { playerInfo, setPlayerInfo } = useContext(PlayerContext);
+  const { playerInfo, setPlayerInfo } = useContext(PlayerContextWrapper);
 
   const playerRef = useRef(null);
 

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@clerk/clerk-react";
-import { TRelease, TReleaseProps } from "~/types/releases";
+import { Release, ReleaseProps } from "~/types/releases";
 
 export function useNewReleaseMutation() {
   return useMutation({
@@ -13,7 +13,7 @@ const postNewRelease = () => {
   const { getToken } = useAuth();
   const navigate = useNavigate({ from: "/releases/$releaseId/view" });
 
-  return async function (value: TReleaseProps) {
+  return async function (value: ReleaseProps) {
     const token = await getToken();
 
     const basicInfo = {
@@ -34,7 +34,7 @@ const postNewRelease = () => {
       body: formData,
     });
 
-    const body = (await res.json()) as TRelease;
+    const body = (await res.json()) as Release;
 
     navigate({
       to: "/releases/$releaseId/view",

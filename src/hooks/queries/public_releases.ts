@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import type { TRelease } from "~/types/releases";
+import type { Release } from "~/types/releases";
 
 export function createPublicReleaseQueryOptions() {
   return queryOptions({
@@ -18,7 +18,7 @@ export function createPublicReleaseQueryOptions() {
         throw new Error("Failed to fetch releases");
       }
 
-      const data = (await response.json()).data as TRelease[];
+      const data = (await response.json()).data as Release[];
       console.log(data);
       return data;
     },
